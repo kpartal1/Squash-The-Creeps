@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=3 uid="uid://dnnytf31vhy0o"]
+
+[ext_resource type="PackedScene" uid="uid://chqji725jhkj2" path="res://art/mob.glb" id="1_i2hr2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_aga4y"]
+size = Vector3(1.55053, 1, 2.14554)
+
+[sub_resource type="Animation" id="Animation_d60qj"]
+resource_name = "float"
+length = 1.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Character:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.3, 0.7, 1.2),
+"transitions": PackedFloat32Array(0.420448, 2.07053, 1),
+"update": 0,
+"values": [Vector3(0, 0.479764, 0), Vector3(0, 0.65, 0), Vector3(0, 0.35, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/Character:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.5, 1.2),
+"transitions": PackedFloat32Array(0.420448, 0.435275, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.139626, 0, 0), Vector3(-0.15708, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vqvd1"]
+_data = {
+"float": SubResource("Animation_d60qj")
+}
+
+[node name="Mob" type="Mob" groups=["mob"]]
+collision_layer = 2
+collision_mask = 0
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.277305, 0)
+
+[node name="Character" parent="Pivot" instance=ExtResource("1_i2hr2")]
+transform = Transform3D(1, 0, 0, 0, 0.987688, 0.156434, 0, -0.156434, 0.987688, 0, 0.35, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0171221, 0.5, -0.00902991)
+shape = SubResource("BoxShape3D_aga4y")
+
+[node name="MobVisibleNotifier" type="MobVisibleNotifier" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.654449, 0.277178)
+aabb = AABB(-1.22421, -0.65445, -1.69387, 2.44841, 1.3089, 3.38774)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vqvd1")
+}
+autoplay = "float"
